@@ -1,0 +1,36 @@
+
+import pandas as pd
+
+df = pd.read_csv("transportadoras.csv")
+
+#---> ELIMINADO DADOS DA TABELA QUE PODEM IMPOSSIBILITAR OPERAÇÕES ("R$" E "h")
+
+df['Custo de Frete até 100Kg [R$/Kg]'] = df['Custo de Frete até 100Kg [R$/Kg]'].apply(lambda x: str(x).replace('R$',''))
+df['Custo de Frete mais de 100Kg [R$/Kg]'] = df['Custo de Frete mais de 100Kg [R$/Kg]'].apply(lambda x: str(x).replace('R$',''))
+df['Tempo para Entrega'] = df['Tempo para Entrega'].apply(lambda x: str(x).replace('h',''))
+
+#---> CONVERTENDO OS TIPOS DAS COLUNAS
+
+df['Custo de Frete até 100Kg [R$/Kg]'] = df['Custo de Frete até 100Kg [R$/Kg]'].astype('float64')
+df['Custo de Frete mais de 100Kg [R$/Kg]'] = df['Custo de Frete mais de 100Kg [R$/Kg]'].astype('float64')
+df['Tempo para Entrega'] = df['Tempo para Entrega'].astype('int')
+
+#---> RENOMEANDO COLUNA
+
+df.rename(columns ={' Nome': 'Empresa'}, inplace=True)
+
+#---> CRIANDO UMA LISTA
+
+lista_cidades =[]
+lista_cidades = df['Cidade'].tolist()
+lista_cidades = set(lista_cidades)
+
+#---> AGRUPANDO POR CIDADE E EMPRESA
+
+df_por_cidade = df.groupby(['Cidade','Empresa']).min()
+
+ult_lin = df['Empresa'].count()
+
+#---> EXIBE TABELA
+
+df_por_cidade.head(ult_lin)
