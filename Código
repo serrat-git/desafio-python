@@ -3,7 +3,7 @@ import pandas as pd
 
 df = pd.read_csv("transportadoras.csv")
 
-#---> ELIMINADO DADOS DA TABELA QUE PODEM IMPOSSIBILITAR OPERAÇÕES ("R$" E "h")
+#---> ELIMINADO CARACTERES DA TABELA QUE PODEM IMPOSSIBILITAR OPERAÇÕES ("R$" E "h")
 
 df['Custo de Frete até 100Kg [R$/Kg]'] = df['Custo de Frete até 100Kg [R$/Kg]'].apply(lambda x: str(x).replace('R$',''))
 df['Custo de Frete mais de 100Kg [R$/Kg]'] = df['Custo de Frete mais de 100Kg [R$/Kg]'].apply(lambda x: str(x).replace('R$',''))
